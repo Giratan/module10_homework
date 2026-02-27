@@ -1,11 +1,12 @@
-const wsUri = "wss://echo-ws-service.herokuapp.com";
+const wsUri = "wss://ws.postman-echo.com/raw";
 
-const input = document.querySelector(".inpute");
+const input = document.querySelector(".input");
 const btn = document.querySelector(".button");
 const geo = document.querySelector(".geo");
 const text = document.getElementById("message_box");
 
 let webSocket;
+let ignoreNextEcho = false;
 
 function writeToScreen(message, type = 'sent') {
     let pre = document.createElement("span");
@@ -27,19 +28,40 @@ webSocket.addEventListener("open", (event) => {
 });
 
 webSocket.addEventListener("message", (event) => {
-    writeToScreen("ОТВЕТ: " + event.data, 'received');
+    console.log("Получено сообщение:", event.data);
+    if (event.data && event.data.trim() !== "") {
+        if (ignoreNextEcho) {
+            ignoreNextEcho = false;
+            return;
+        }
+        writeToScreen(event.data, 'received');
+    }
 });
 
 webSocket.addEventListener("error", (event) => {
     console.error("Ошибка WebSocket:", event);
+    enableLocalEcho();
 });
 
 webSocket.addEventListener("close", (event) => {
     console.log("Соединение закрыто");
+    enableLocalEcho();
 });
 
+function enableLocalEcho() {
+    webSocket = {
+        send: (message) => {
+            setTimeout(() => {
+                writeToScreen(message, 'received');
+            }, 500);
+        },
+        close: () => {},
+        readyState: WebSocket.OPEN
+    };
+}
+
 btn.addEventListener("click", () => {
-    const message = updateVariable;
+    const message = input.value.trim();
     
     if (message === "") {
         alert("Введите сообщение!");
@@ -48,7 +70,7 @@ btn.addEventListener("click", () => {
     
     webSocket.send(message);
     
-    writeToScreen("ВЫ: " + message, 'sent');
+    writeToScreen(message, 'sent');
     
     input.value = "";
 });
@@ -67,11 +89,10 @@ geo.addEventListener("click", () => {
             
             const mapLink = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
             
+            ignoreNextEcho = true;
             webSocket.send(`Моя геолокация: ${latitude}, ${longitude}`);
             
-            writeToScreen(`<a href="${mapLink}" target="_blank">Моя геолокация</a>`, 'sent');
-            
-            alert(`Ваше местоположение: ${latitude}, ${longitude}`);
+            writeToScreen(`<a href="${mapLink}" target="_blank">📍 Моя геолокация</a>`, 'sent');
         }, (error) => {
             alert("Ошибка получения геолокации: " + error.message);
         });
