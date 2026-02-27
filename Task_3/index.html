@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Task_3 (chat and geolocation)</title>
+</head>
+<body>
+
+    <div class="content">
+        <p class = "text">Небольшой чатик</p>
+
+        <div class="box">
+            <div class="active_zone">
+                <div class="text_messege">
+                    <input style = "cursor: text;" class="input" type="inpute" name="text_messege" placeholder="Здесь вводится текст сообщения" oninput="updateVariable(this.value)">
+                </div>
+
+                <div class="confirm_button">
+                    <button style = "cursor: pointer;" class="button" type="button">Отправить</button>
+                </div>
+
+                <div>
+                    <button style = "cursor: pointer;" class="geo" type="button">Геолокация</button>
+                </div>
+            </div>
+            <div id="message_box">
+                <!-- Сообщения будут появляться здесь -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

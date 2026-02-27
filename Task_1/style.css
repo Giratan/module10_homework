@@ -1,0 +1,39 @@
+.content{
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 26px;
+}
+
+span{
+  margin: 0px;
+  padding: 0px;
+  font-size: 20px;
+}
+
+.content__icon{
+  margin: 0px;
+  padding: 0px;
+}
+
+.bi{
+  margin: 0px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.bi-arrow-down-left-circle{
+  margin: 0px;
+  padding: 0px;
+  display: block;
+}
+
+.bi-arrow-down-left-circle-fill{
+  margin: 0px;
+  padding: 0px;
+  display: none;
+}
+
