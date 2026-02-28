@@ -1,4 +1,4 @@
-const wsUri = "wss://ws.postman-echo.com/raw";
+const wsUri = "wss://echo-ws-service.herokuapp.com";
 
 const input = document.querySelector(".input");
 const btn = document.querySelector(".button");
